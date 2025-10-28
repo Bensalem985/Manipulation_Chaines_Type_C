@@ -185,5 +185,77 @@ void ExtraireSousChaine(char* destination, const char* source, size_t debut, siz
         destination[i] = '\0';
     }
 
-    // Test 9
+// Test 9
+size_t DiviseurChaine(const char* chaine, char separateur, char resultat[][100], size_t max_resultats) {
+    size_t nb_resultats = 0;
+    size_t i = 0; 
+    size_t debut_mot = 0;
+    while (chaine[i] != '\0' && nb_resultats < max_resultats) {
+        if (chaine[i] == separateur || chaine[i] == '\0') {
+            size_t longueur_mot = i - debut_mot;
+            if (longueur_mot > 0) {
+                ExtraireSousChaine(resultat[nb_resultats], chaine, debut_mot, longueur_mot);
+                nb_resultats++;
+                if (nb_resultats >= max_resultats) {
+                    break;
+                }
+            }
+            debut_mot = i + 1;
+        }
+        i++;
+    }
+    if (nb_resultats < max_resultats) {
+        size_t longueur_mot = i - debut_mot;
+        if (longueur_mot > 0) {
+            ExtraireSousChaine(resultat[nb_resultats], chaine, debut_mot, longueur_mot);
+            nb_resultats++;
+        }
+    }
     
+    return nb_resultats;
+}
+
+// Test 10
+int ComparerChaines(const char* chaine1, const char* chaine2) {
+    while (*chaine1 != '\0' && *chaine2 != '\0') {
+        if (*chaine1 != *chaine2) {
+            return *chaine1 - *chaine2;
+        }
+        chaine1++;
+        chaine2++;
+    }
+    return *chaine1 - *chaine2;
+}
+
+// Test 11
+void ConvertirMinuscules(char* chaine) {
+    char caractere;
+    for (size_t i = 0; chaine[i] != '\0'; i++) {
+        caractere = chaine[i];
+        if (caractere >= 'A' && caractere <= 'Z') {
+            chaine[i] = caractere + 32;
+        }
+    }
+}
+
+bool EstChaineNumerique(const char* chaine) {
+    if (*chaine == '\0') {
+        return false;
+    }
+
+    if (*chaine == '-') {
+        chaine++;
+        if (*chaine == '\0') {
+            return false;
+        }
+    }
+
+    while (*chaine != '\0') {
+        if (*chaine < '0' || *chaine > '9') {
+            return false;
+        }
+        chaine++;
+    }
+
+    return true;
+}
